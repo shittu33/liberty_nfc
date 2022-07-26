@@ -17,12 +17,13 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var result = '';
+  var nfcApi = NfcApi();
 
   @override
   void initState() {
     super.initState();
     log("initState");
-    NfcApi().scanNfcTag().then((value) {
+    nfcApi.scanNfcTag().then((value) {
       setState(() {
         result += "Card number: ${value.cardNumber}\n";
         result += "Card type: ${value.cardType}\n";
@@ -36,6 +37,12 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    NfcApi().stopScan();
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

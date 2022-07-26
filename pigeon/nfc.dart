@@ -16,4 +16,7 @@ class Date{
 abstract class NfcApi {
   @async
   NfcResult scanNfcTag();
+
+  @async
+  void stopScan();
 }

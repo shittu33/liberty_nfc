@@ -49,15 +49,6 @@ class NfcApi : Pigeon.NfcApi {
 
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
-    fun onResume() {
-        ActivityUtil.enableNfcForegroundDispatch(activity, mNfcAdapter)
-    }
-
-    fun onPause() {
-        ActivityUtil.disableNfcForegroundDispatch(activity, mNfcAdapter)
-        nfcManager.onPause()
-    }
 
     override fun scanNfcTag(result: Pigeon.Result<Pigeon.NfcResult>?) {
         Log.i("Liberty", "Start Scanning")
@@ -66,6 +57,21 @@ class NfcApi : Pigeon.NfcApi {
         this.result = result
         Log.i("Liberty", "onScanNFCTAG RESULT>>>")
 
+    }
+
+    override fun stopScan(result: Pigeon.Result<Void>?) {
+        Log.i("Liberty", "onStop Scanning>>>")
+        onPause()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    fun onResume() {
+        ActivityUtil.enableNfcForegroundDispatch(activity, mNfcAdapter)
+    }
+
+    fun onPause() {
+        ActivityUtil.disableNfcForegroundDispatch(activity, mNfcAdapter)
+        nfcManager.onPause()
     }
 
     private fun onTagDiscovered(tag: Tag?) {

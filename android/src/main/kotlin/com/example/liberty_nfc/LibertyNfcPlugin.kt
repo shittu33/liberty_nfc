@@ -45,7 +45,7 @@ class LibertyNfcPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
     override fun onDetachedFromActivity() {
         Log.d(ContentValues.TAG, "onDetachedFromActivity: Detached")
-        nfcApi?.onPause()
+//        nfcApi?.onPause()
     }
 
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
@@ -59,9 +59,14 @@ class LibertyNfcPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
     override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
         channel.setMethodCallHandler(null)
+        Log.d(ContentValues.TAG, "onDetachedFromEngine: Detached")
+//
+//        nfcApi?.onPause()
     }
 
     override fun onDetachedFromActivityForConfigChanges() {
+        Log.d(ContentValues.TAG, "onDetachedFromActivityForConfigChanges: Detached")
+        nfcApi?.onPause()
     }
 
 }

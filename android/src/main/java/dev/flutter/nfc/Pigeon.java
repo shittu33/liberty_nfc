@@ -187,6 +187,7 @@ public class Pigeon {
   /** Generated interface from Pigeon that represents a handler of messages from Flutter.*/
   public interface NfcApi {
     void scanNfcTag(Result<NfcResult> result);
+    void stopScan(Result<Void> result);
 
     /** The codec used by NfcApi. */
     static MessageCodec<Object> getCodec() {
@@ -214,6 +215,35 @@ public class Pigeon {
               };
 
               api.scanNfcTag(resultCallback);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+              reply.reply(wrapped);
+            }
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.NfcApi.stopScan", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              Result<Void> resultCallback = new Result<Void>() {
+                public void success(Void result) {
+                  wrapped.put("result", null);
+                  reply.reply(wrapped);
+                }
+                public void error(Throwable error) {
+                  wrapped.put("error", wrapError(error));
+                  reply.reply(wrapped);
+                }
+              };
+
+              api.stopScan(resultCallback);
             }
             catch (Error | RuntimeException exception) {
               wrapped.put("error", wrapError(exception));
